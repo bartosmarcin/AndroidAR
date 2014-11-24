@@ -7,6 +7,7 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -70,6 +71,12 @@ public class ImageManipulationsActivity extends Activity implements
 	}
 
 	public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-		return inputFrame.rgba();
+		Mat rgba = inputFrame.rgba();
+		Mat gray = inputFrame.gray();
+		Mat thrs = new Mat();
+		
+		Imgproc.threshold(gray, thrs, 0, 255, Imgproc.THRESH_OTSU);		
+		
+		return rgba;
 	}
 }
